@@ -10,3 +10,10 @@ body {
 #timeSlider {
     width: 500px;
 }
+.manifestacion .tags{
+	height:40px;
+}
+.label{
+	margin-left:5px;
+	display:inline-block;
+}

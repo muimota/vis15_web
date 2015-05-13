@@ -36,10 +36,17 @@ function updateUI(){
 	
 		var article = articles[i];
 		var manifestacion = manidiv.clone();
+		
 		manifestacion.find('.title').text(article['title']);
 		manifestacion.find('.summary').text(article['subtitles'][0] || "");
 		manifestacion.find('.place').text(article['place']);
-
+		
+		manifestacion.find('.tags').empty();
+		for(var i=0;i<article.tags.length;i++){
+			var tagName = pm.tags[article['tags'][i]];
+			var spanTag = $('<span />').addClass('label').addClass(' label-info').html(tagName);
+			manifestacion.find('.tags').append(spanTag);		
+		}
 		$('#manifestaciones').append(manifestacion);
 	}		
 }
