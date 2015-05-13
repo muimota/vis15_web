@@ -37,7 +37,7 @@ function updateUI(){
 		var article = articles[i];
 		var manifestacion = manidiv.clone();
 		
-		manifestacion.find('.title').text(article['title']);
+		manifestacion.find('.title>a').text(article['title']).attr("href", article['url']);
 		manifestacion.find('.summary').text(article['subtitles'][0] || "");
 		manifestacion.find('.place').text(article['place']);
 		
