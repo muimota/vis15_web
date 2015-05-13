@@ -1,0 +1,12 @@
+body {
+  padding-top: 100px;
+}
+.title{
+	height:25px;
+}
+.summary{
+	height:40px;
+}
+#timeSlider {
+    width: 500px;
+}
