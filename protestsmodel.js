@@ -46,7 +46,7 @@ ProtestModel.prototype.getTagId = function(tagIds){
 
 	var articles = {}
 	var date,article,tagId;
-
+	var articleTagCount; //number of tags article has from tagIds array
 	for(var i = 0 ; i < this.timeline.length ; i++ ){
 		
 		date = this.timeline[i];
@@ -54,18 +54,21 @@ ProtestModel.prototype.getTagId = function(tagIds){
 		for(var j=0;j < this.articles[date].length ; j ++){
 			
 			article = this.articles[date][j];
-			
+			articleTagCount = 0;
 			for(var k = 0 ; k < tagIds.length ; k++ ){
 				
 				tagId = tagIds[k];
 
 				if(article['tags'].indexOf(tagId) != -1){
-					if(articles[date] == undefined){
-						articles[date] = [article];
-					}else{
-						articles[date].push(article);
+					articleTagCount ++ ;
+					if(articleTagCount == tagIds.length){
+						if(articles[date] == undefined){
+							articles[date] = [article];
+						}else{
+							articles[date].push(article);
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}
