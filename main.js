@@ -8,7 +8,8 @@ $(document).ready(function(){
 function init(data){
 	
 	pm = new ProtestModel(data);
-	
+	pm = pm.getTags(['Manifestaciones','Bomberos']);
+
 	$('#timeslider').slider({'min':0,'max':pm.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateUI);
 	
@@ -50,3 +51,4 @@ function updateUI(){
 		$('#manifestaciones').append(manifestacion);
 	}		
 }
+
