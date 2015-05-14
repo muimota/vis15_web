@@ -8,7 +8,7 @@ $(document).ready(function(){
 function init(data){
 	
 	pm = new ProtestModel(data);
-	pm = pm.getTags(['Miguel Ángel Blanco Garrido']);
+	//pm = pm.getTags(['Corrupción']);
 
 	$('#timeslider').slider({'min':0,'max':pm.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateUI);
@@ -43,8 +43,8 @@ function updateUI(){
 		manifestacion.find('.place').text(article['place']);
 		
 		manifestacion.find('.tags').empty();
-		for(var i=0;i<article.tags.length;i++){
-			var tagName = pm.tags[article['tags'][i]];
+		for(var j=0;j<article.tags.length;j++){
+			var tagName = pm.tags[article['tags'][j]];
 			var spanTag = $('<span />').addClass('label').addClass(' label-info').html(tagName);
 			manifestacion.find('.tags').append(spanTag);		
 		}
