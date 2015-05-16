@@ -1,5 +1,5 @@
 
-var pm;
+var am;
 
 $(document).ready(function(){
 	$.get('protests.json',init);
@@ -7,14 +7,14 @@ $(document).ready(function(){
 
 function init(data){
 	
-	protestmodel = new ProtestModel(data);
-	pm = protestmodel;
-	//pm = pm.getTags(['Corrupción']);
+	articlesmodel = new ArticlesModel(data);
+	am = articlesmodel;
+	//am = am.getTags(['Corrupción']);
 
-	$('#timerange').slider({'min':0,'max':pm.timeline.length-1,'step':1,'value':[0,100]});
+	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
 	$('#timerange').on('change',updateTags);
 
-	$('#timeslider').slider({'min':0,'max':pm.timeline.length-1,'step':1});
+	$('#timeslider').slider({'min':0,'max':am.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateArticles);
 	
 	updateTags();
@@ -24,8 +24,8 @@ function updateArticles(){
 	
 	var index  = $('#timeslider').slider('getValue');
 	
-	var date = pm.timeline[index];
-	var articles = pm.articles[date];
+	var date = am.timeline[index];
+	var articles = am.articles[date];
 	var manifestaciones = $('.manifestacion');
 
 	var manidiv = manifestaciones.first().clone();
@@ -49,7 +49,7 @@ function updateArticles(){
 		
 		manifestacion.find('.tags').empty();
 		for(var j=0;j<article.tags.length;j++){
-			var tagName = pm.tags[article['tags'][j]];
+			var tagName = am.tags[article['tags'][j]];
 			var spanTag = $('<span />').addClass('label').addClass(' label-info').html(tagName);
 			manifestacion.find('.tags').append(spanTag);		
 		}
@@ -58,7 +58,7 @@ function updateArticles(){
 		
 			for(var thingId in article.things){
 				
-				var thingName = pm.things[thingId];
+				var thingName = am.things[thingId];
 				var spanTag = $('<span />').addClass('label').addClass('label-success').html(thingName+':'+article.things[thingId]);
 				
 				manifestacion.find('.tags').append(spanTag);	
@@ -76,8 +76,11 @@ function updateTags(){
 
 	var indexes  = $('#timerange').slider('getValue');
 	console.log(indexes);
-	var startDate = protestmodel.timeline[indexes[0]];
-	var endDate   = protestmodel.timeline[indexes[1]];
+	var startDate = articlesmodel.timeline[indexes[0]];
+	var endDate   = articlesmodel.timeline[indexes[1]];
 	
-	$('#datesrange').text(ProtestModel.formatDate(startDate) + ' - ' + ProtestModel.formatDate(endDate));
+	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
+	var articlesinrange = am.getArticlesInDateRange(startDate,endDate);
+	var tagsIds = articlesinrange.getTagIds();
+	console.log(tagsIds.length);
 }
