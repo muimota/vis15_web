@@ -2,7 +2,7 @@
 var pm;
 
 $(document).ready(function(){
-	$.get('protestas.json',init);
+	$.get('protests.json',init);
 });
 
 function init(data){
@@ -48,6 +48,21 @@ function updateUI(){
 			var spanTag = $('<span />').addClass('label').addClass(' label-info').html(tagName);
 			manifestacion.find('.tags').append(spanTag);		
 		}
+		manifestacion.find('.things').empty();
+		if('things' in article){
+		
+			for(var thingId in article.things){
+				
+				var thingName = pm.things[thingId];
+				var spanTag = $('<span />').addClass('label').addClass(' label-success').html(thingName+':'+article.things[thingId]);
+				
+				manifestacion.find('.tags').append(spanTag);	
+
+			}
+
+		}
+
+
 		$('#manifestaciones').append(manifestacion);
 	}		
 }

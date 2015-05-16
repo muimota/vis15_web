@@ -8,10 +8,10 @@ body {
 	height:40px;
 }
 #timeSlider {
-    width: 500px;
+    width: 100%;
 }
-.manifestacion .tags{
-	height:40px;
+.manifestacion .tags, .manifestacion .things{
+	height:70px;
 }
 .label{
 	margin-left:5px;

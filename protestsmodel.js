@@ -2,7 +2,8 @@
 function ProtestModel(data){
 	
 	this.articles = data['articles'];
-	this.tags	  = data['tags']
+	this.tags	  = data['tags'];
+	this.things	  = data['things'];
 	this.timeline = [];
 	
 	for(var date in this.articles) {
@@ -11,6 +12,14 @@ function ProtestModel(data){
 	this.timeline.sort();
 
 }
+ProtestModel.formatDate = function(date){
+	var year  = date.substring(0,4);
+	var month = date.substring(4,6);
+	var day   = date.substring(6,8);
+	return day + '/'+month+'/'+year;
+
+}
+
 
 ProtestModel.prototype.getDate = function(date){
 
@@ -39,7 +48,7 @@ ProtestModel.prototype.getDateRange = function(startDate,endDate){
 
 	}
 
-	return new ProtestModel({'articles':articles,'tags':this.tags});
+	return new ProtestModel({'articles':articles,'tags':this.tags,'things':this.things});
 }
 
 ProtestModel.prototype.getTagId = function(tagIds){
