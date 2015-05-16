@@ -12,7 +12,8 @@ function init(data){
 	//am = am.getTags(['Corrupción']);
 
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
-	$('#timerange').on('change',updateTags);
+	$('#timerange').on('change',updateRange);
+	$('#tagButton').click(updateTags);
 
 	$('#timeslider').slider({'min':0,'max':am.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateArticles);
@@ -72,15 +73,35 @@ function updateArticles(){
 	}		
 }
 
-function updateTags(){
+function updateRange(){
 
 	var indexes  = $('#timerange').slider('getValue');
-	console.log(indexes);
 	var startDate = articlesmodel.timeline[indexes[0]];
 	var endDate   = articlesmodel.timeline[indexes[1]];
 	
 	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
+
+}
+
+function updateTags(){
+
+	var indexes  = $('#timerange').slider('getValue');
+	var startDate = articlesmodel.timeline[indexes[0]];
+	var endDate   = articlesmodel.timeline[indexes[1]];
+	
+	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
+	
 	var articlesinrange = am.getArticlesInDateRange(startDate,endDate);
-	var tagsIds = articlesinrange.getTagIds();
-	console.log(tagsIds.length);
+	var tagStats = articlesinrange.getTagStats();
+	var sortedTags = ArticlesModel.sortTagStats(tagStats,200);
+
+	var values = []
+	for(var i=0;i<sortedTags.length;i++){
+		var tagId = sortedTags[i]
+		values.push(am.tags[tagId] +':'+tagStats[tagId]);
+	}
+	$('#tagsexplorer').text(values.join(', '));
+
+
+	
 }

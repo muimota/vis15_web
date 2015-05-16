@@ -19,6 +19,35 @@ ArticlesModel.formatDate = function(date){
 	return day + '/'+month+'/'+year;
 
 }
+ArticlesModel.sortTagStats = function(tagStats,maxcount){
+	
+	var tagIds = [],tagId;
+	var tagCounts = []
+
+	for(tagId in tagStats){
+		tagCount = tagStats[tagId];
+		tagCounts.push(tagCount);
+	}
+	
+	if(maxcount==undefined){
+		maxcount = tagCounts.length;
+	}
+
+	//http://www.w3schools.com/jsref/jsref_sort.asp
+	tagCounts = tagCounts.sort(function(a, b){return b-a});
+	
+	for(var i=0;i<maxcount && i<tagCounts.length;i++){
+		
+		for(tagId in tagStats){
+			if(tagStats[tagId] == tagCounts[i] && tagIds.indexOf(tagId) == -1){
+				tagIds.push(tagId);
+				break;
+			}
+		}
+	}
+
+	return tagIds;
+}
 
 
 ArticlesModel.prototype.getArticlesInDate = function(date){
@@ -97,18 +126,17 @@ ArticlesModel.prototype.getArticlesWithTags = function(tags){
 			tagIds.push(tagId);
 		}
 	}
-	
-	return this.getTagId(tagIds);
+	return this.getArticlesWithTagId(tagIds);
 
 }
 
 //return tags pressent in the model
 
-ArticlesModel.prototype.getTagIds = function(){
+ArticlesModel.prototype.getTagStats = function(){
 	
 	var date;
 	var article,articleTags;
-	var tagIds = [];
+	var tagStats = {};
 	
 	for(var i = 0 ; i < this.timeline.length ; i++ ){
 		
@@ -120,12 +148,14 @@ ArticlesModel.prototype.getTagIds = function(){
 			articleTags = article.tags;
 			for(var k=0; k<articleTags.length; k++ ){
 				tagId = articleTags[k];
-				if( tagIds.indexOf(tagId) == -1 ){
-					tagIds.push(tagId);
+				if( tagId in tagStats){
+					tagStats[tagId] = tagStats[tagId] + 1;
+				}else{
+					tagStats[tagId] = 1;
 				}
 			}
 		}
 	}
 
-	return tagIds;
+	return tagStats;
 }
