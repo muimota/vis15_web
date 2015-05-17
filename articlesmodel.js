@@ -1,20 +1,23 @@
 
 function ArticlesModel(data){
 	
-	this.articles = data['articles'];
+	this.datedArticles = data['articles'];
+	this.articles = [];
 	this.tags	  = data['tags'];
 	this.things	  = data['things'];
 	this.timeline = [];
 	this.length   = 0;
-	for(var date in this.articles) {
+
+	for(var date in this.datedArticles) {
 		this.timeline.push(date);
 	}
 	this.timeline.sort();
 
 	for(var i = 0 ; i < this.timeline.length ; i++ ){
 		date = this.timeline[i];
-		for(var j = 0; j < this.articles[date].length ; j ++){	
-			this.length++;
+		for(var j = 0; j < this.datedArticles[date].length ; j ++){	
+			var article = this.datedArticles[date][j];
+			this.articles.push(article);
 		}
 	}
 	
@@ -63,7 +66,7 @@ ArticlesModel.sortTagStats = function(tagStats,maxcount){
 
 ArticlesModel.prototype.getArticlesInDate = function(date){
 
-	return this.articles[date];
+	return this.datedArticles[date];
 }
 
 
@@ -82,7 +85,7 @@ ArticlesModel.prototype.getArticlesInDateRange = function(startDate,endDate){
 				break;
 			}
 		
-			articles[date] = this.articles[date];
+			articles[date] = this.datedArticles[date];
 			
 		}
 
@@ -100,9 +103,9 @@ ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
 		
 		date = this.timeline[i];
 		
-		for(var j = 0; j < this.articles[date].length ; j ++){
+		for(var j = 0; j < this.datedArticles[date].length ; j ++){
 			
-			article = this.articles[date][j];
+			article = this.datedArticles[date][j];
 			
 			for(var k = 0 ; k < tagIds.length ; k++ ){
 				
@@ -152,9 +155,9 @@ ArticlesModel.prototype.getTagStats = function(){
 		
 		date = this.timeline[i];
 		
-		for(var j=0;j < this.articles[date].length ; j ++){
+		for(var j=0;j < this.datedArticles[date].length ; j ++){
 			
-			article = this.articles[date][j];
+			article = this.datedArticles[date][j];
 			articleTags = article.tags;
 			for(var k=0; k<articleTags.length; k++ ){
 				tagId = articleTags[k];
