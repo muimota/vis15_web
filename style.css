@@ -17,3 +17,6 @@ body {
 	margin-left:5px;
 	display:inline-block;
 }
+#tagsexplorer .label{
+	cursor: pointer;
+}
