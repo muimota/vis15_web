@@ -9,15 +9,16 @@ function init(data){
 	
 	articlesmodel = new ArticlesModel(data);
 	am = articlesmodel;
-	//am = am.getTags(['Corrupción']);
 
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
 	$('#timerange').on('change',updateRange);
 	$('#tagButton').click(updateTags);
+	//$('#calculateButton').click(function())
+
 
 	$('#timeslider').slider({'min':0,'max':am.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateArticles);
-	
+	$('#tagsexplorer').click(tagsHandler);
 	updateTags();
 }
 
@@ -83,6 +84,29 @@ function updateRange(){
 
 }
 
+function getActiveTags(){
+	var activeSpans = $('#tagsexplorer').find('.label').not('.label-default');
+	var activeTags = [];
+	for(var i = 0;i<activeSpans.length;i++){
+		var activeSpan = activeSpans[i];
+		var tagId = $(activeSpan).attr('id').substring(3);
+		activeTags.push(parseInt(tagId));
+	}
+
+	return activeTags;
+}
+
+function tagsHandler(e){
+	if($(e.target).hasClass('label')){
+		$(e.target).toggleClass('label-success').toggleClass('label-default');
+	}else{
+		return;
+	}
+
+	
+	console.log(getActiveTags());
+}
+
 function updateTags(){
 
 	var indexes  = $('#timerange').slider('getValue');
@@ -92,15 +116,47 @@ function updateTags(){
 	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
 	
 	var articlesinrange = am.getArticlesInDateRange(startDate,endDate);
-	var tagStats = articlesinrange.getTagStats();
-	var sortedTags = ArticlesModel.sortTagStats(tagStats,200);
+	var tagStats   = articlesinrange.getTagStats();
+	var sortedTags = ArticlesModel.sortTagStats(tagStats);
+	
+	//get tags 
+	var activeTags = getActiveTags();
 
-	var values = []
+	var totalArticles = articlesinrange.length;
+	var articlesWithActiveTags = articlesinrange.getArticlesWithTagIds(activeTags).length;
+
+	console.log(totalArticles + " - " + articlesWithActiveTags);
+
+	//merge activeTags and sortedTags
+	for(var i=0;i<activeTags.length;i++){
+		var tagId = activeTags[i]
+		if(!(tagId in tagStats)){
+			sortedTags.push(tagId);
+			tagStats[tagId] = 0;
+		}
+	}
+
+
+	$('#tagsexplorer').empty();
 	for(var i=0;i<sortedTags.length;i++){
 		var tagId = sortedTags[i]
-		values.push(am.tags[tagId] +':'+tagStats[tagId]);
+		var tagText = am.tags[tagId]+':'+tagStats[tagId];
+		var spanTag = $('<span />').addClass('label').addClass(' label-default').html(tagText);
+		spanTag.attr('id','tag'+tagId);
+		$('#tagsexplorer').append(spanTag);	
 	}
-	$('#tagsexplorer').text(values.join(', '));
+	for(var i=0;i<activeTags.length;i++){
+		var tagId = activeTags[i]
+		var spanTag = $('#tag'+tagId);
+		spanTag.toggleClass('label-default');
+		if(tagStats[tagId]==0){
+			spanTag.toggleClass('label-warning');
+		}else{
+			spanTag.toggleClass('label-success');
+		}
+	}
+	
+
 
 
 	

@@ -5,13 +5,22 @@ function ArticlesModel(data){
 	this.tags	  = data['tags'];
 	this.things	  = data['things'];
 	this.timeline = [];
-	
+	this.length   = 0;
 	for(var date in this.articles) {
 		this.timeline.push(date);
 	}
 	this.timeline.sort();
 
+	for(var i = 0 ; i < this.timeline.length ; i++ ){
+		date = this.timeline[i];
+		for(var j = 0; j < this.articles[date].length ; j ++){	
+			this.length++;
+		}
+	}
+	
+
 }
+
 ArticlesModel.formatDate = function(date){
 	var year  = date.substring(0,4);
 	var month = date.substring(4,6);
@@ -19,6 +28,8 @@ ArticlesModel.formatDate = function(date){
 	return day + '/'+month+'/'+year;
 
 }
+
+
 ArticlesModel.sortTagStats = function(tagStats,maxcount){
 	
 	var tagIds = [],tagId;
@@ -80,33 +91,32 @@ ArticlesModel.prototype.getArticlesInDateRange = function(startDate,endDate){
 	return new ArticlesModel({'articles':articles,'tags':this.tags,'things':this.things});
 }
 
-ArticlesModel.prototype.getArticlesWithTagId = function(tagIds){
+ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
 
 	var articles = {}
 	var date,article,tagId;
-	var articleTagCount; //number of tags article has from tagIds array
+	
 	for(var i = 0 ; i < this.timeline.length ; i++ ){
 		
 		date = this.timeline[i];
 		
-		for(var j=0;j < this.articles[date].length ; j ++){
+		for(var j = 0; j < this.articles[date].length ; j ++){
 			
 			article = this.articles[date][j];
-			articleTagCount = 0;
+			
 			for(var k = 0 ; k < tagIds.length ; k++ ){
 				
 				tagId = tagIds[k];
 
 				if(article['tags'].indexOf(tagId) != -1){
-					articleTagCount ++ ;
-					if(articleTagCount == tagIds.length){
+					
 						if(articles[date] == undefined){
 							articles[date] = [article];
 						}else{
 							articles[date].push(article);
 						}
 						break;
-					}
+					
 				}
 			}
 		}
@@ -126,11 +136,11 @@ ArticlesModel.prototype.getArticlesWithTags = function(tags){
 			tagIds.push(tagId);
 		}
 	}
-	return this.getArticlesWithTagId(tagIds);
+	return this.getArticlesWithTagIds(tagIds);
 
 }
 
-//return tags pressent in the model
+//return tags count of tags present in the model {tagId0:tagCount0,...,tagIdn:tagCountn }
 
 ArticlesModel.prototype.getTagStats = function(){
 	
