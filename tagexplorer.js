@@ -62,7 +62,7 @@ function calculateTags(){
 
 	for(var i=0;i<activeTags.length;i++){
 		var tagId = activeTags[i];
-		var tagArticles = articlesinrange.tagRels[tagId];
+		var tagArticles = articlesinrange.tagMap[tagId];
 		for(var j=0;j<tagArticles.length;j++){
 			if(tagsArticles.indexOf(tagArticles[j]) == -1){
 				tagsArticles.push(tagArticles[j]);
@@ -104,7 +104,7 @@ function updateTags(){
 	$('#tagsexplorer').empty();
 	for(var i=0;i<sortedTags.length;i++){
 		var tagId = sortedTags[i]
-		var tagText = am.tags[tagId]+':'+tagStats[tagId];
+		var tagText = am.tagNames[tagId]+':'+tagStats[tagId];
 		var spanTag = $('<span />').addClass('label').addClass(' label-default').html(tagText);
 		spanTag.attr('id','tag'+tagId);
 		$('#tagsexplorer').append(spanTag);	

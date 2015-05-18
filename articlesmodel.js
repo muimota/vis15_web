@@ -2,8 +2,8 @@
 function ArticlesModel(data){
 	
 	this.articles = [];
-	this.tags	  = data['tags'];
-	this.tagRels = {}
+	this.tagNames	  = data['tags'];
+	this.tagMap = {}
 	this.things	  = data['things'];
 
 	this.datedArticles = data['articles'];
@@ -28,12 +28,12 @@ function ArticlesModel(data){
 		var article = this.articles[i];
 		for(var j=0;j<article.tags.length;j++){
 			var tagId  = article.tags[j];
-			if(tagId in this.tagRels){
-				if(this.tagRels[tagId].indexOf(article)==-1){
-					this.tagRels[tagId].push(article);
+			if(tagId in this.tagMap){
+				if(this.tagMap[tagId].indexOf(article)==-1){
+					this.tagMap[tagId].push(article);
 				}
 			}else{
-				this.tagRels[tagId] = [article];
+				this.tagMap[tagId] = [article];
 			}
 		}
 	}
@@ -110,7 +110,7 @@ ArticlesModel.prototype.getArticlesInDateRange = function(startDate,endDate){
 
 	}
 
-	return new ArticlesModel({'articles':articles,'tags':this.tags,'things':this.things});
+	return new ArticlesModel({'articles':articles,'tags':this.tagNames,'things':this.things});
 }
 
 ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
@@ -144,7 +144,7 @@ ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
 		}
 	}
 
-	return new ArticlesModel({'articles':articles,'tags':this.tags});
+	return new ArticlesModel({'articles':articles,'tags':this.tagNames});
 }
 
 ArticlesModel.prototype.getArticlesWithTags = function(tags){
@@ -153,7 +153,7 @@ ArticlesModel.prototype.getArticlesWithTags = function(tags){
 	var tagId;
 
 	for(var i = 0 ; i < tags.length ; i++ ){
-		tagId = this.tags.indexOf(tags[i]);
+		tagId = this.tagNames.indexOf(tags[i]);
 		if(tagId != -1){
 			tagIds.push(tagId);
 		}
@@ -170,8 +170,8 @@ ArticlesModel.prototype.getTagStats = function(){
 	var article,articleTags;
 	var tagStats = {};
 	
-	for(var tagId in this.tagRels){
-		tagStats[tagId]=this.tagRels[tagId].length;
+	for(var tagId in this.tagMap){
+		tagStats[tagId]=this.tagMap[tagId].length;
 	}
 
 	return tagStats;
