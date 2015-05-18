@@ -1,11 +1,13 @@
 
-function ArticlesModel(data){
+function ArticlesModel(data,minTagCardinality){
 	
 
 	this.indexedArticles = data['articles'];
 	this.tagNames 		 = data['tagNames'];
 	this.tagMap   		 = data['tagMap'];
 	this.things	  		 = data['things'];
+
+	this.minTagCardinality = minTagCardinality|0;
 
 	this.articles = [];
 	this.datedArticles = {};
@@ -33,6 +35,9 @@ function ArticlesModel(data){
 	//create tagMap
 	var tagMap = {}
 	for(tagId in this.tagMap){
+		if(this.tagMap[tagId].length<=this.minTagCardinality){
+			continue;
+		}
 		var taggedArticles = []
 		for(var i=0;i<this.tagMap[tagId].length;i++){
 			var articleIndex = this.tagMap[tagId][i];

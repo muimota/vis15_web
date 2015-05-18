@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 function init(data){
 	
-	am = new ArticlesModel(data);
+	am = new ArticlesModel(data,4);
 	articlesmodel = am;
 	
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
