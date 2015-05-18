@@ -2,21 +2,21 @@
 var am;
 var articlesinrange;
 $(document).ready(function(){
-	$.get('protests.json',init);
+	$.get('protests4.json',init);
 });
 
 function init(data){
 	
-	articlesmodel = new ArticlesModel(data);
-	am = articlesmodel;
-
+	am = new ArticlesModel(data);
+	articlesmodel = am;
+	
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
 	$('#timerange').on('change',updateRange);
 	$('#tagButton').click(updateTags);
 	//$('#calculateButton').click(function())
 	$('#tagsexplorer').click(tagsHandler);
 	$('#calcButton').click(calculateTags);
-	updateTags();
+
 }
 
 
@@ -49,7 +49,6 @@ function tagsHandler(e){
 		return;
 	}
 
-	
 	console.log(getActiveTags());
 }
 

@@ -1,45 +1,50 @@
 
 function ArticlesModel(data){
 	
-	this.articles = [];
-	this.tagNames	  = data['tags'];
-	this.tagMap = {}
-	this.things	  = data['things'];
 
-	this.datedArticles = data['articles'];
+	this.indexedArticles = data['articles'];
+	this.tagNames 		 = data['tagNames'];
+	this.tagMap   		 = data['tagMap'];
+	this.things	  		 = data['things'];
+
+	this.articles = [];
+	this.datedArticles = {};
 	this.timeline = [];
 
 	this.length   = 0;
 
-	for(var date in this.datedArticles) {
-		this.timeline.push(date);
+	//create dateArticles and timeline
+	var date = "00000000"
+	for(var i  in this.indexedArticles) {
+		var article = this.indexedArticles[i];
+
+		this.articles.push(article);
+		
+		if(date != article['date']){
+			date = article['date'];
+			this.timeline.push(date)
+			this.datedArticles[date] = [article];	
+		}else{
+			this.datedArticles[date].push(article);	
+		}
 	}
 	this.timeline.sort();
 
-	for(var i = 0 ; i < this.timeline.length ; i++ ){
-		var date = this.timeline[i];
-		for(var j = 0; j < this.datedArticles[date].length ; j ++){	
-			var article = this.datedArticles[date][j];
-			this.articles.push(article);
-		}
-	}
-
-	for(var i=0;i<this.articles.length;i++){
-		var article = this.articles[i];
-		for(var j=0;j<article.tags.length;j++){
-			var tagId  = article.tags[j];
-			if(tagId in this.tagMap){
-				if(this.tagMap[tagId].indexOf(article)==-1){
-					this.tagMap[tagId].push(article);
-				}
-			}else{
-				this.tagMap[tagId] = [article];
+	//create tagMap
+	var tagMap = {}
+	for(tagId in this.tagMap){
+		var taggedArticles = []
+		for(var i=0;i<this.tagMap[tagId].length;i++){
+			var articleIndex = this.tagMap[tagId][i];
+			if(articleIndex in this.indexedArticles){
+				taggedArticles.push(articleIndex);
 			}
 		}
+		if(taggedArticles.length>0){
+			tagMap[tagId] = taggedArticles;
+		}
 	}
-
-
-	
+	this.tagMap = tagMap;
 
 }
 
@@ -94,9 +99,9 @@ ArticlesModel.prototype.getArticlesInDateRange = function(startDate,endDate){
 	var articles = {};
 	var date;
 
-	for(var i = 0 ; i < this.timeline.length ; i++ ){
-		
-		date = this.timeline[i];
+	for(var i in this.indexedArticles ){
+		var article = this.indexedArticles[i]
+		date = article['date'];
 
 		if(date >= startDate){
 			
@@ -104,13 +109,13 @@ ArticlesModel.prototype.getArticlesInDateRange = function(startDate,endDate){
 				break;
 			}
 		
-			articles[date] = this.datedArticles[date];
+			articles[i] = article;
 			
 		}
 
 	}
-
-	return new ArticlesModel({'articles':articles,'tags':this.tagNames,'things':this.things});
+	
+	return new ArticlesModel({'articles':articles,'tagNames':this.tagNames,'tagMap':this.tagMap,'things':this.things});
 }
 
 ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
@@ -118,33 +123,24 @@ ArticlesModel.prototype.getArticlesWithTagIds = function(tagIds){
 	var articles = {}
 	var date,article,tagId;
 	
-	for(var i = 0 ; i < this.timeline.length ; i++ ){
-		
-		date = this.timeline[i];
-		
-		for(var j = 0; j < this.datedArticles[date].length ; j ++){
+	for(var i in this.articles ){
 			
-			article = this.datedArticles[date][j];
+		article = this.articles[i];
+		
+		for(var k = 0 ; k < tagIds.length ; k++ ){
 			
-			for(var k = 0 ; k < tagIds.length ; k++ ){
-				
-				tagId = tagIds[k];
+			tagId = tagIds[k];
 
-				if(article['tags'].indexOf(tagId) != -1){
-					
-						if(articles[date] == undefined){
-							articles[date] = [article];
-						}else{
-							articles[date].push(article);
-						}
-						break;
-					
-				}
+			if(article['tags'].indexOf(tagId) != -1){
+				
+					articles[i] = article;
+					break;
+				
 			}
 		}
 	}
 
-	return new ArticlesModel({'articles':articles,'tags':this.tagNames});
+	return new ArticlesModel({'articles':articles,'tagNames':this.tagNames,'tagMap':this.tagMap,'things':this.things});
 }
 
 ArticlesModel.prototype.getArticlesWithTags = function(tags){
@@ -170,6 +166,7 @@ ArticlesModel.prototype.getTagStats = function(){
 	var article,articleTags;
 	var tagStats = {};
 	
+
 	for(var tagId in this.tagMap){
 		tagStats[tagId]=this.tagMap[tagId].length;
 	}
