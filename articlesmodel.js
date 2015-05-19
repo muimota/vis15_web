@@ -8,6 +8,7 @@ function ArticlesModel(data,minTagCardinality){
 	this.things	  		 = data['things'];
 
 	this.minTagCardinality = minTagCardinality|0;
+	this.maxTagCardinality = minTagCardinality|999999;
 
 	this.articles = [];
 	this.datedArticles = {};
@@ -35,7 +36,8 @@ function ArticlesModel(data,minTagCardinality){
 	//create tagMap
 	var tagMap = {}
 	for(tagId in this.tagMap){
-		if(this.tagMap[tagId].length<=this.minTagCardinality){
+		var tagCount = this.tagMap[tagId].length;
+		if(tagCount<=this.minTagCardinality || tagCount>=this.maxTagCardinality){
 			continue;
 		}
 		var taggedArticles = []

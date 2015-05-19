@@ -11,7 +11,7 @@ function init(data){
 	articlesmodel = am;
 	
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
-	$('#timerange').on('change',updateRange);
+	$('#timerange').on('change',updateTags);
 	$('#tagButton').click(updateTags);
 	//$('#calculateButton').click(function())
 	$('#tagsexplorer').click(tagsHandler);
@@ -81,7 +81,7 @@ function updateTags(){
 	
 	articlesinrange = am.getArticlesInDateRange(startDate,endDate);
 	var tagStats   = articlesinrange.getTagStats();
-	var sortedTags = ArticlesModel.sortTagStats(tagStats);
+	var sortedTags = ArticlesModel.sortTagStats(tagStats,200);
 	
 	//get tags 
 	var activeTags = getActiveTags();

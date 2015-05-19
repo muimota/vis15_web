@@ -12,8 +12,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap.dark.css" rel="stylesheet">
-    <!--<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
-    
+    <!-- <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="map.css" rel="stylesheet">
     <!-- Bootstrap slider core CSS -->
     <link href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
 
@@ -55,19 +55,11 @@
     </nav>
 
     <div class="container">
-
-      
+        <h2 id="date"></h2>
+        <h6 id="places"></h6>
         <input id="timeslider" data-slider-id='timeSlider' type="text"/>
+        <div id="map"></div>
       <h5 id="date"></h5>
-      <div id="manifestaciones">
-        <div class="manifestacion">
-          <h4 class="title"><a href="#" target="blank">Bootstrap starter template</a></h3>
-          <p  class="summary"></p>
-          <h5 class="place"></h5>
-          <div class="tags"></div>
-          <div class="things"></divs>
-        </div>
-      </div>
     </div><!-- /.container -->
 
 
@@ -77,8 +69,11 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js" rel="stylesheet"></script>
-
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/raphael/raphael-min.js"></script>
     <script src="articlesmodel.js"></script>
-    <script src="main.js"></script>
+    <script src="places.js"></script>
+    <script src="things.js"></script>
+    <script src="map.js"></script>
     </body>
 </html>
