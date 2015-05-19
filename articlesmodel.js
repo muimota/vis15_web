@@ -1,5 +1,5 @@
 
-function ArticlesModel(data,minTagCardinality){
+function ArticlesModel(data,minTagCardinality,maxTagCardinality){
 	
 
 	this.indexedArticles = data['articles'];
@@ -8,7 +8,7 @@ function ArticlesModel(data,minTagCardinality){
 	this.things	  		 = data['things'];
 
 	this.minTagCardinality = minTagCardinality|0;
-	this.maxTagCardinality = minTagCardinality|999999;
+	this.maxTagCardinality = maxTagCardinality|999999;
 
 	this.articles = [];
 	this.datedArticles = {};
