@@ -8,7 +8,7 @@ $(document).ready(function(){
 function init(data){
 	
 	am = new ArticlesModel(data,4);
-	articlesmodel = am;
+	
 	
 	$('#timerange').slider({'min':0,'max':am.timeline.length-1,'step':1,'value':[0,100]});
 	$('#timerange').on('change',updateTags);
@@ -23,8 +23,8 @@ function init(data){
 function updateRange(){
 
 	var indexes  = $('#timerange').slider('getValue');
-	var startDate = articlesmodel.timeline[indexes[0]];
-	var endDate   = articlesmodel.timeline[indexes[1]];
+	var startDate = am.timeline[indexes[0]];
+	var endDate   = am.timeline[indexes[1]];
 	
 	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
 
@@ -45,11 +45,10 @@ function getActiveTags(){
 function tagsHandler(e){
 	if($(e.target).hasClass('label')){
 		$(e.target).toggleClass('label-success').toggleClass('label-default');
+		calculateTags();
 	}else{
 		return;
 	}
-
-	console.log(getActiveTags());
 }
 
 function calculateTags(){
@@ -67,21 +66,23 @@ function calculateTags(){
 				tagsArticles.push(tagArticles[j]);
 			}
 		}	
-	}
-	console.log(tagsArticles.length);
+	}//get tags 
+	var activeTags = getActiveTags();
+	$('#stats').text(''+articlesinrange.length+'/'+tagsArticles.length+'('+activeTags.join(',')+')');
+	
 }
 
 function updateTags(){
 
 	var indexes  = $('#timerange').slider('getValue');
-	var startDate = articlesmodel.timeline[indexes[0]];
-	var endDate   = articlesmodel.timeline[indexes[1]];
+	var startDate = am.timeline[indexes[0]];
+	var endDate   = am.timeline[indexes[1]];
 	
 	$('#datesrange').text(ArticlesModel.formatDate(startDate) + ' - ' + ArticlesModel.formatDate(endDate));
 	
 	articlesinrange = am.getArticlesInDateRange(startDate,endDate);
 	var tagStats   = articlesinrange.getTagStats();
-	var sortedTags = ArticlesModel.sortTagStats(tagStats,200);
+	var sortedTags = ArticlesModel.sortTagStats(tagStats);
 	
 	//get tags 
 	var activeTags = getActiveTags();
