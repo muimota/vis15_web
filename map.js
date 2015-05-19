@@ -12,14 +12,14 @@ var categoryTags =
 		};
 var categoryColors = 
 	{
-		'Empleo':Raphael.color('#ff0000'),
-		'Salud':Raphael.color('#ffff00'),
-	 	'Educación':Raphael.color('#ff00f0'),
-	 	'Vivienda':Raphael.color('#f0f0f0'),
-	 	'Seguridad y Justicia':Raphael.color('#ff5500'),
-	 	'Medio ambiente':Raphael.color('#ff0055')
+		'Empleo':Raphael.color('#F26B28'),
+		'Salud':Raphael.color('#DB044E'),
+	 	'Educación':Raphael.color('#CB8A14'),
+	 	'Vivienda':Raphael.color('#5663B2'),
+	 	'Seguridad y Justicia':Raphael.color('#3AB2B1'),
+	 	'Medio ambiente':Raphael.color('#9CB637')
 	};
-var defaultColor = Raphael.color('#ffffff');
+var defaultColor = Raphael.color('#666666');
 
 var elements = [];
 $(document).ready(function(){
@@ -41,20 +41,16 @@ function init(data){
 function sliderHandler(){
 	
 	var index  = $('#timeslider').slider('getValue');
-	var indexRadius = 50;
+	var indexRadius = 5;
 	var startIndex	= Math.max(index-indexRadius,0);
 	var endIndex	= Math.min(index+indexRadius,am.timeline.length);
 	
 	var placesDict = {};
 	var placeNames = [];
 	var articles = [];
-/*
-	for(var i=0;i<elements.length;i++){
-		elements[i].remove();
-	}
-	elements.splice(0,elements.length);
-*/
+
 	var articleIds = [];
+
 	for(var i=startIndex;i<endIndex;i++){
 		
 		var date = am.timeline[i];
@@ -73,8 +69,7 @@ function sliderHandler(){
 	var elementsToRemove = [];
 	for(var i=0;i<elements.length;i++){
 		var element = elements[i];
-		var index = articleIds.indexOf(element['id']);
-		
+		var index = articleIds.indexOf(element.data('id'));
 		
 		if(index==-1){
 			// que se tienen que quitar
@@ -91,9 +86,11 @@ function sliderHandler(){
 	for(var i=0;i<elementsToRemove.length;i++){
 		var element = elementsToRemove[i];
 		element.remove()
+		
 	}
 
 	//añadimos los que faltan
+	console.log(articles.length);
 	for(var j=0;j<articles.length;j++){
 		var article = articles[j];
 		drawProtest(article);
@@ -145,7 +142,10 @@ function drawProtest(article){
 			var place = places[i];
 			placesDict[place]=true;
 			coords  = getCoordinates(place);
-			element = paper.circle(coords[0],coords[1],radius).attr({fill: color,opacity:0.7});
+			if(coords==undefined){
+				continue;
+			}
+			element = paper.circle(coords[0],coords[1],radius).attr({'fill': color,'opacity':0.7,'stroke-width': 0});
 			element.attr({opacity:0.0});
 			element.animate({opacity:0.7},500);
 			element.data('id',article['id']);
