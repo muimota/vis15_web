@@ -19,6 +19,7 @@ function ArticlesModel(data,minTagCardinality,maxTagCardinality){
 	//create dateArticles and timeline
 	var date = "00000000"
 	for(var i  in this.indexedArticles) {
+		this.length++;
 		var article = this.indexedArticles[i];
 
 		this.articles.push(article);
