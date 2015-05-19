@@ -47,37 +47,58 @@ function sliderHandler(){
 	
 	var placesDict = {};
 	var placeNames = [];
-
+	var articles = [];
+/*
 	for(var i=0;i<elements.length;i++){
 		elements[i].remove();
 	}
 	elements.splice(0,elements.length);
-
-
-	for(var k=startIndex;k<endIndex;k++){
+*/
+	var articleIds = [];
+	for(var i=startIndex;i<endIndex;i++){
 		
-		var date = am.timeline[k];
-		var articles = am.getArticlesInDate(date);
+		var date = am.timeline[i];
+		var dayArticles = am.getArticlesInDate(date);
 
-		for(var i=0;i<articles.length;i++){
-			var article = articles[i];
-			drawProtest(article);
-			if('place' in article){
-				var places = article['place'];
-				for(var j=0;j<places.length;j++){
-					var place = places[j];
-					placesDict[place]=true;
-				}
-			}
+		for(var j=0;j<dayArticles.length;j++){
+			var article = dayArticles[j];
+			articleIds.push(article['id']);
+			articles.push(article);
 
 		}
 	}
-
-	for(var placeName in placesDict){
-		placeNames.push(placeName);
+	//quitamos los que desaparecen
+	var indexToRemove = [];
+	var elementsToKeep   = [];
+	var elementsToRemove = [];
+	for(var i=0;i<elements.length;i++){
+		var element = elements[i];
+		var index = articleIds.indexOf(element['id']);
+		
+		
+		if(index==-1){
+			// que se tienen que quitar
+			elementsToRemove.push(element);
+		}else{
+			//que estan y que no hay que volver a chequear
+			articleIds.splice(index,1);
+			articles.splice(index,1);
+			elementsToKeep.push(element)
+		}
+	}
+	elements = elementsToKeep;
+    //quitamos
+	for(var i=0;i<elementsToRemove.length;i++){
+		var element = elementsToRemove[i];
+		element.remove()
 	}
 
-	//$('#places').text(placeNames.join(','));
+	//añadimos los que faltan
+	for(var j=0;j<articles.length;j++){
+		var article = articles[j];
+		drawProtest(article);
+	}
+
 	$('#date').text(ArticlesModel.formatDate(am.timeline[startIndex]) + ' - ' + 
 				    ArticlesModel.formatDate(am.timeline[endIndex]));
 }
@@ -125,6 +146,8 @@ function drawProtest(article){
 			placesDict[place]=true;
 			coords  = getCoordinates(place);
 			element = paper.circle(coords[0],coords[1],radius).attr({fill: color,opacity:0.7});
+			element.attr({opacity:0.0});
+			element.animate({opacity:0.7},500);
 			element.data('id',article['id']);
 			elements.push(element);
 		}
