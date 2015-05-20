@@ -41,7 +41,7 @@ function init(data){
 function sliderHandler(){
 	
 	var index  = $('#timeslider').slider('getValue');
-	var indexRadius = 5;
+	var indexRadius = 30;
 	var startIndex	= Math.max(index-indexRadius,0);
 	var endIndex	= Math.min(index+indexRadius,am.timeline.length);
 	
@@ -83,9 +83,12 @@ function sliderHandler(){
 	}
 	elements = elementsToKeep;
     //quitamos
+    var f = function(){
+				element.remove();
+			};
 	for(var i=0;i<elementsToRemove.length;i++){
 		var element = elementsToRemove[i];
-		element.remove()
+		element.animate({opacity:0.0},500,'linear',f.bind(element));
 		
 	}
 
@@ -146,8 +149,9 @@ function drawProtest(article){
 				continue;
 			}
 			element = paper.circle(coords[0],coords[1],radius).attr({'fill': color,'opacity':0.7,'stroke-width': 0});
+			element.click(circleHandler);
 			element.attr({opacity:0.0});
-			element.animate({opacity:0.7},500);
+			element.animate({opacity:0.3},500);
 			element.data('id',article['id']);
 			elements.push(element);
 		}
@@ -156,4 +160,9 @@ function drawProtest(article){
 		}
 	}
 	
+}
+
+function circleHandler(){
+	console.log("oh!");
+	debugger;
 }
