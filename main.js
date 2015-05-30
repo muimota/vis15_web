@@ -12,6 +12,7 @@ function init(data){
 
 	$('#timeslider').slider({'min':0,'max':am.timeline.length-1,'step':1});
 	$('#timeslider').on('change',updateUI);
+	updateUI();
 	
 }
 

@@ -46,9 +46,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="tagexplorer.htm">Tag Explorer</a></li>
-            <li><a href="map.htm">Mapa</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="archive.htm">Scraping</a></li>
+            <li><a href="tagexplorer.htm">Etiquetado</a></li>
+            <li><a href="map.htm">Visualización</a></li>
+            
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -58,39 +59,39 @@
       <img src="images/demonstration.jpg" />
     </header>
     <div class="container">
-       
+    <div class="row"> 
        <h1>Mapas del descontento</h1>
        <p>MdD Nace con el objetivo de analizar las distintas protestas sociales y su participación tanto en el espacio físico como las redes sociales. Durante Visualizar 2015 nos encontramos con el problema de que no encontramos suficiente información publicada del tema por parte de la administración pública. Al no disponer de un dataset suficiente se tomó la decisión de usar la hemeroteca online del diario “El Pais” donde vienen referencias a protestas sociales desde 1976 hasta la fecha. Esto nos ofrecía la oportunidad de explorar estas protestas sociales en un rango de tiempo mas amplio aunque ello implicara dejar el análisis en las redes sociales en un segundo plano. Lo interesante es que íbamos a poder a ir viendo la evolución de las motivaciones  de estas protestas sociales en el tiempo.</p>
-
-       <div class="row">
-           <div class="col-md-4">
-            <a href="#" class="thumbnail">
-              <img src="images/terminal.png" alt="...">
-            </a>
-              <h3>Obtención de Datos</h3>
-                <p>Para poder disponer de la información se han desarrollado un ‘webscapper’ que no es mas un programa que obtiene información útil como puede ser Título, fecha, etiquetas de cada uno de los  artículos que nos interesaba.</p>
-           </div>
-           <div class="col-md-4">
-              <a href="#" class="thumbnail">
-                <img src="images/tagsexplorer.png" alt="...">
-              </a>
-              <div class="caption">
-               <h3>Etiquetado</h3>
-               <p>Una vez que teníamos todos los artículos nos encontramos con el problema que no teníamos una idea del orden de magnitud cada una de las protestas. Teníamos la fecha, el lugar, algunas etiquetas que nos permitirían intuir la motivación de la protesta pero nos faltaba información que estaba en el cuerpo de la noticia como cuanta gente participó en cada protesta.
-              </p>
-            </div>
-           </div>
-           <div class="col-md-4">
-              <a href="#" class="thumbnail">
-                <img src="images/visual.jpg" alt="...">
-              </a>
-              <div class="caption">
-               <h3>Visualización</h3>
-               <p>Una vez que teníamos todos los artículos nos encontramos con el problema que no teníamos una idea del orden de magnitud cada una de las protestas. Teníamos la fecha, el lugar, algunas etiquetas que nos permitirían intuir la motivación de la protesta pero nos faltaba información que estaba en el cuerpo de la noticia como cuanta gente participó en cada protesta.
-              </p>
-            </div>
-           </div>
+    </div>
+    <div class="row">
+       <div class="col-md-4">
+        <a href="archive.htm" class="thumbnail">
+          <img src="images/terminal.png" alt="...">
+        </a>
+          <h3>Scraping</h3>
+            <p>Para poder disponer de la información se han desarrollado un <strong>‘webscrapper’</strong> que no es mas un programa que obtiene información útil como puede ser Título, fecha, etiquetas de cada uno de los  artículos que nos interesaba.Una vez que teníamos todos los artículos nos encontramos con el problema que no teníamos una idea del orden de magnitud cada una de las protestas.Para ello escribimos programas que nos permitan extraer esa información de manera automática del cuerpo de la noticia.</p>
+       </div>
+       <div class="col-md-4">
+          <a href="tagexplorer.htm" class="thumbnail">
+            <img src="images/tagsexplorer.png" alt="...">
+          </a>
+          <div class="caption">
+           <h3>Etiquetado</h3>
+           <p>Una vez que tenemos el dataset, hemos extraido información adicional del cuerpo de la noticia nos vemos con el problema de como clasificar toda la información. Nos encontramos con que había muchas mas etiquetas que las que nos esperabamos, esto suponía un problema pues nos dificultaba tener una imagen general . Para poder detectar que tipo de protestas eras mas frecuentes según que época se hizo esta herramienta que permite agrupar y ordenar etiquetas y así ver las frecuencias en cada época.
+          </p>
         </div>
+       </div>
+       <div class="col-md-4">
+          <a href="map.htm" class="thumbnail">
+            <img src="images/visual.jpg" alt="...">
+          </a>
+          <div class="caption">
+           <h3>Visualización</h3>
+           <p>Con el dataset completo y con sus elementos localizados en el espacio y en el tiempo nos disponemos a presentarlo de una manera que permita al usuario explorarlo. 
+          </p>
+        </div>
+       </div>
+    </div>
 
 
     </div><!-- /.container -->

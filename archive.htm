@@ -11,7 +11,9 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
+    <!--<link href="bootstrap.dark.css" rel="stylesheet"> -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Bootstrap slider core CSS -->
     <link href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
 
@@ -31,7 +33,7 @@
 
   <body>
 
-     <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -44,8 +46,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="archive.htm">Scraping</a></li>
-            <li class="active"><a href="tagexplorer.htm">Etiquetado</a></li>
+            <li class="active"><a href="archive.htm">Scraping</a></li>
+            <li><a href="tagexplorer.htm">Etiquetado</a></li>
             <li><a href="map.htm">Visualización</a></li>
             
           </ul>
@@ -53,34 +55,28 @@
       </div>
     </nav>
     <header>
-      <img src="images/tagsexplorer_bg.png" />
+      <img src="images/scraping_bg.jpg" />
     </header>
 
     <div class="container">
-        <h1>Etiquetado</h1>
-        <p>Una vez que tenemos el dataset, hemos extraido información adicional del cuerpo de la noticia nos vemos con el problema de como clasificar toda la información. Nos encontramos con que había muchas mas etiquetas que las que nos esperabamos, esto suponía un problema pues nos dificultaba <strong>tener una imagen general</strong> . Para poder detectar que tipo de protestas eras mas frecuentes según que época se hizo esta herramienta que permite agrupar y ordenar etiquetas y así ver las frecuencias en cada época</p>
-        <h2>Agrupando</h2>
-        <p>Una vez que tenemos una idea general pasamos a proponer una clasificación</p>
-        <ul>
-          <li>Empleo</li>
-          <li>Salud</li>
-          <li>Educación</li>
-          <li>Vivienda</li>
-          <li>Seguridad y Justicia</li>
-          <li>Medio ambiente</li>
-        </ul>
-        <h1>TagExplorer</h1>
-        Esta es la herramienta que se usó para poder clasificar todas las protestas. Esta herramienta nos permite acotar por rango de fechas, nos muestra las fechas mas frecuentes y nos permite marcar etiquetas para ver como evolucionan en el tiempo.
 
-        <h2 id="datesrange"></h2>
-        <input id="timerange" data-slider-id='timeSlider' type="text"/> 
-        <h3 id="stats">Stats</h3>
-        <!-- <button type="button" id="tagButton"class="btn" autocomplete="off"> Show Tags</button>
-        <button type="button" id="calcButton"class="btn" autocomplete="off"> Calculate Tags</button>
-        <button type="button" id="resetButton"class="btn" autocomplete="off"> Reset Tags</button> -->
-        <div id="tagsexplorer">
+      <h1>Scraping</h1>
+      <p><strong>Scraping</strong> es una técnica utilizada mediante programas de software para extraer información de sitios web. Usualmente, estos programas simulan la navegación de un humano</p>
+      <p>
+      Una vez que hemos obtenido todos los artículos que pensamos que pueden contener información que nos podría ser útil hacemos otro programas que nos permiten extraer algo mas de información del cuerpo de la noticia, descartar los artículos que no lo sean.</p>
+      <h2>Archivo</h2>
+      <p>Esta herramienta nos permite comprobar qué artículos estamos teniendo en cuenta, de un vistazo nos muestra las etiquetas <strong> extraidas del diario (azules) </strong> y la información <strong>extraida por nuestros programas (verde)</strong>. Guardamos un link a la noticia original para poder comprobar que nos se ha producido ningún error en el proceso de scraping</p>
+      <input id="timeslider" data-slider-id='timeSlider' type="text"/>
+      <h5 id="date"></h5>
+      <div id="manifestaciones">
+        <div class="manifestacion">
+          <h4 class="title"><a href="#" target="blank">Bootstrap starter template</a></h3>
+          <p  class="summary"></p>
+          <h5 class="place"></h5>
+          <div class="tags"></div>
+          <div class="things"></divs>
         </div>
-        
+      </div>
     </div><!-- /.container -->
 
 
@@ -92,6 +88,6 @@
     <script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js" rel="stylesheet"></script>
 
     <script src="articlesmodel.js"></script>
-    <script src="tagexplorer.js"></script>
+    <script src="main.js"></script>
     </body>
 </html>

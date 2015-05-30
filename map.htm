@@ -11,8 +11,8 @@
     <title>Mapas del descontento</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap.dark.css" rel="stylesheet">
-    <!-- <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="bootstrap.dark.css" rel="stylesheet"> -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="map.css" rel="stylesheet">
     <!-- Bootstrap slider core CSS -->
     <link href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
@@ -42,23 +42,32 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.htm">Mapas del Descontento</a>
+          <a class="navbar-brand active" href="index.htm">Mapas del Descontento</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="tagexplorer.htm">Tag Explorer</a></li>
-            <li class="active"><a href="map.htm">Mapa</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="archive.htm">Scraping</a></li>
+            <li><a href="tagexplorer.htm">Etiquetado</a></li>
+            <li class="active"><a href="map.htm">Visualización</a></li>
+            
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
+    <header>
+      <img src="images/visualizacion_bg.jpg" />
+    </header>
+    <div class="container">
+    <h1>Visualización</h1>
+    <p>Una vez recogidos y tratados los datos, con la clasificación propuesta podemos hacer la visualización. En este caso es un mapa interactivo: cada protesta social está coloreada según su motivación, el tamaño depende de los participantes y si se pincha muestra un link a la noticia original</p>
     <div class="container">
         <h2 id="date"></h2>
         <h6 id="places"></h6>
         <input id="timeslider" data-slider-id='timeSlider' type="text"/>
-        <div id="map"></div>
+        <div id="map">
+            <div id="tool">Pepito Grillo</div>
+        </div>
       <h5 id="date"></h5>
     </div><!-- /.container -->
 

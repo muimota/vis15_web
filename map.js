@@ -33,6 +33,7 @@ function init(data){
 
 	$('#timeslider').slider({'min':0,'max':am.timeline.length-1,'step':1});
 	$('#timeslider').on('change',sliderHandler);
+	//$('#map').click(function(){$('#tool').hide()})
 	paper = Raphael('map',992,684)
 	paper.image('images/map.png',0,0,992,684);
 	sliderHandler();
@@ -41,7 +42,7 @@ function init(data){
 function sliderHandler(){
 	
 	var index  = $('#timeslider').slider('getValue');
-	var indexRadius = 30;
+	var indexRadius = 10;
 	var startIndex	= Math.max(index-indexRadius,0);
 	var endIndex	= Math.min(index+indexRadius,am.timeline.length);
 	
@@ -83,12 +84,15 @@ function sliderHandler(){
 	}
 	elements = elementsToKeep;
     //quitamos
-    var f = function(){
-				element.remove();
-			};
+   
 	for(var i=0;i<elementsToRemove.length;i++){
 		var element = elementsToRemove[i];
-		element.animate({opacity:0.0},500,'linear',f.bind(element));
+		element.animate({opacity:0.0},500,'linear',
+			function(){
+				//debugger;
+    			//this.unclick(f.bind(element));
+				this.remove();
+			});
 		
 	}
 
@@ -106,7 +110,7 @@ function sliderHandler(){
 function drawProtest(article){
 
 	var coords,element;
-	var radius = 3;
+	var radius = 5;
 	var color = undefined;
 	var tagIds = article['tags'];
 
@@ -132,7 +136,7 @@ function drawProtest(article){
 			index = validThings.indexOf(am.things[thingId]);
 			if(index > -1 && index<thingIndex){
 				thingIndex = index;
-				radius = Math.max(3,Math.min(50,mapValue(things[thingId],0,10000,3,50)));
+				radius = Math.max(5,Math.min(50,mapValue(things[thingId],0,10000,3,50)));
 			}
 		}
 	}
@@ -163,6 +167,24 @@ function drawProtest(article){
 }
 
 function circleHandler(){
-	console.log("oh!");
-	debugger;
+	var BBox = this.getBBox(false);
+    var offset  = $('#map').position();
+    var toolTip = $('#tool');
+    var position = {};
+    var articleId = this.data('id');
+    var article = am.indexedArticles[articleId];
+    var innerHtml = '<h8>'+ArticlesModel.formatDate(article['date'])+'</h8><h6><a href="'+article['url']+'" target = "_blank">'+article.title+'</a></h6>';
+    position.top  = Math.max(0,BBox.y-85);
+    position.left = -125+(BBox.x+BBox.x2)/2.0;
+
+    //toolTip.text(this.paper.mapManager.datamodel.getTooltip(this.node.id));
+    toolTip.hide();
+    toolTip.css("top",position.top);
+    toolTip.css("left",position.left);
+    toolTip.html(innerHtml)
+
+    toolTip.fadeIn();
+	
+
+	//debugger;
 }

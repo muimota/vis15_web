@@ -16,7 +16,7 @@ function init(data){
 	//$('#calculateButton').click(function())
 	$('#tagsexplorer').click(tagsHandler);
 	$('#calcButton').click(calculateTags);
-
+	updateTags();
 }
 
 
@@ -82,7 +82,7 @@ function updateTags(){
 	
 	articlesinrange = am.getArticlesInDateRange(startDate,endDate);
 	var tagStats   = articlesinrange.getTagStats();
-	var sortedTags = ArticlesModel.sortTagStats(tagStats);
+	var sortedTags = ArticlesModel.sortTagStats(tagStats,180);
 	
 	//get tags 
 	var activeTags = getActiveTags();
